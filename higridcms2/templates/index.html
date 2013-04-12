@@ -1,0 +1,26 @@
+{% extends 'higridbasic.html' %}
+
+{% block page_title %}嗨网在线博客{% endblock %}
+
+{% block page_content %}
+
+
+
+
+
+
+
+
+		{% for post in posts %}
+					<h3><a href="/blog/{{ post.link }}">{{ post.title }}</a></h3>
+      <span>{{ post.date }}</span>
+					<p>{{ post.desc|raw }}</p>
+<a href="/blog/{{ post.link }}" class="btn primary xsmall" title="{{ post.title }}" rel="nofollow">查看全文 &rarr;</a>
+<hr>
+
+	{% endfor %}
+
+
+	{% include "pagination.html" %}
+
+{% endblock %}
