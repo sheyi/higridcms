@@ -2,6 +2,7 @@
 
 ##demo：
 
+<http://my.higrid.net/>  完全与github站点同步
 http://higrid.net/hi
 
 
@@ -15,6 +16,7 @@ Your site content can be formatted in:
 - HTML 
 - Textile 
 
+中文功能介绍：<http://higrid.net/hi/hicms>
 ##Features
 
 - Simplicity - just manage files and folders
