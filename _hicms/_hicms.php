@@ -575,7 +575,7 @@ class HiCMS_Helper {
   public static function random_string($length = 32) {
     $s = '';
     $c = "BCDFGHJKLMNPQRSTVWXYZbcdfghjklmnpqrstvwxwz0123456789";
-    for(;$length > 0;$length--) $s .= $c{rand(0,strlen($c)-1)};
+    for(;$length > 0;$length--) $s .= $c[rand(0,strlen($c)-1)];
     return str_shuffle($s);
   }
 

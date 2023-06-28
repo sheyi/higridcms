@@ -826,7 +826,7 @@ class Markdown_Parser {
 		if ($matches[2] == '-' && preg_match('{^-(?: |$)}', $matches[1]))
 			return $matches[0];
 		
-		$level = $matches[2]{0} == '=' ? 1 : 2;
+		$level = $matches[2][0] == '=' ? 1 : 2;
 		$block = "<h$level>".$this->runSpanGamut($matches[1])."</h$level>";
 		return "\n" . $this->hashBlock($block) . "\n\n";
 	}
@@ -1122,7 +1122,7 @@ class Markdown_Parser {
 				} else {
 					# Other closing marker: close one em or strong and
 					# change current token state to match the other
-					$token_stack[0] = str_repeat($token{0}, 3-$token_len);
+					$token_stack[0] = str_repeat($token[0], 3-$token_len);
 					$tag = $token_len == 2 ? "strong" : "em";
 					$span = $text_stack[0];
 					$span = $this->runSpanGamut($span);
@@ -1147,7 +1147,7 @@ class Markdown_Parser {
 				} else {
 					# Reached opening three-char emphasis marker. Push on token 
 					# stack; will be handled by the special condition above.
-					$em = $token{0};
+					$em = $token[0];
 					$strong = "$em$em";
 					array_unshift($token_stack, $token);
 					array_unshift($text_stack, '');
@@ -1476,9 +1476,9 @@ class Markdown_Parser {
 	# Handle $token provided by parseSpan by determining its nature and 
 	# returning the corresponding value that should replace it.
 	#
-		switch ($token{0}) {
+		switch ($token[0]) {
 			case "\\":
-				return $this->hashPart("&#". ord($token{1}). ";");
+				return $this->hashPart("&#". ord($token[1]). ";");
 			case "`":
 				# Search for end marker in remaining text.
 				if (preg_match('/^(.*?[^`])'.preg_quote($token).'(?!`)(.*)$/sm', 
@@ -1826,10 +1826,10 @@ class MarkdownExtra_Parser extends Markdown_Parser {
 			#
 			# Check for: Code span marker
 			#
-			if ($tag{0} == "`") {
+			if ($tag[0] == "`") {
 				# Find corresponding end marker.
 				$tag_re = preg_quote($tag);
-				if (preg_match('{^(?>.+?|\n(?!\n))*?(?<!`)'.$tag_re.'(?!`)}',
+				if (preg_match('[^(?>.+?|\n(?!\n))*?(?<!`)'.$tag_re.'(?!`)]',
 					$text, $matches))
 				{
 					# End marker found: pass text unchanged until marker.
@@ -1844,10 +1844,10 @@ class MarkdownExtra_Parser extends Markdown_Parser {
 			#
 			# Check for: Fenced code block marker.
 			#
-			else if (preg_match('{^\n?[ ]{0,'.($indent+3).'}~}', $tag)) {
+			else if (preg_match('[^\n?[ ]{0,'.($indent+3).'}~]', $tag)) {
 				# Fenced code block marker: find matching end marker.
 				$tag_re = preg_quote(trim($tag));
-				if (preg_match('{^(?>.*\n)+?[ ]{0,'.($indent).'}'.$tag_re.'[ ]*\n}', $text, 
+				if (preg_match('[^(?>.*\n)+?[ ][0,'.($indent).']'.$tag_re.'[ ]*\n]', $text, 
 					$matches)) 
 				{
 					# End marker found: pass text unchanged until marker.
@@ -1872,7 +1872,7 @@ class MarkdownExtra_Parser extends Markdown_Parser {
 			#            Opening Context Block tag (like ins and del) 
 			#               used as a block tag (tag is alone on it's line).
 			#
-			else if (preg_match('{^<(?:'.$this->block_tags_re.')\b}', $tag) ||
+			else if (preg_match('[^<(?:'.$this->block_tags_re.')\b]', $tag) ||
 				(	preg_match('{^<(?:'.$this->context_block_tags_re.')\b}', $tag) &&
 					preg_match($newline_before_re, $parsed) &&
 					preg_match($newline_after_re, $text)	)
@@ -1889,7 +1889,7 @@ class MarkdownExtra_Parser extends Markdown_Parser {
 			# Check for: Clean tag (like script, math)
 			#            HTML Comments, processing instructions.
 			#
-			else if (preg_match('{^<(?:'.$this->clean_tags_re.')\b}', $tag) ||
+			else if (preg_match('[^<(?:'.$this->clean_tags_re.')\b]', $tag) ||
 				$tag{1} == '!' || $tag{1} == '?')
 			{
 				# Need to parse tag and following text using the HTML parser.
@@ -1904,13 +1904,13 @@ class MarkdownExtra_Parser extends Markdown_Parser {
 			#
 			else if ($enclosing_tag_re !== '' &&
 				# Same name as enclosing tag.
-				preg_match('{^</?(?:'.$enclosing_tag_re.')\b}', $tag))
+				preg_match('[^</?(?:'.$enclosing_tag_re.')\b]', $tag))
 			{
 				#
 				# Increase/decrease nested tag count.
 				#
-				if ($tag{1} == '/')						$depth--;
-				else if ($tag{strlen($tag)-2} != '/')	$depth++;
+				if ($tag[1] == '/')						$depth--;
+				else if ($tag[strlen($tag)-2] != '/')	$depth++;
 
 				if ($depth < 0) {
 					#

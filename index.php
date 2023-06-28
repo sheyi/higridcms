@@ -13,7 +13,7 @@ $public_path = isset($config['_public_path']) ? $config['_public_path'] : '';
 
 $config['theme_path'] = '_themes/'.$config['_theme']."/";
 $config['templates.path'] = HiCMS_helper::reduce_double_slashes($public_path.'_themes/'.$config['_theme']."/");
-$config['debug'] = $config['_debug'];
+//$config['debug'] = $config['_debug'];
 $config['view'] = new HiCMS_View();
 
 $app = new \Slim\Slim($config);

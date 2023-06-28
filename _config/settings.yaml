@@ -1,10 +1,10 @@
 #==============H!Grid CMS设置      自定义变量
 
 # 在模板中使用网站访问地址。网页链接的根部URL，不带后斜杠/
-_higrid_root_url: http://my.higrid.net
+_higrid_root_url: https://my.higrid.net
 
 # 作者名称
-_higrid_author_name: <a target="_top" href="http://higrid.net/">嗨网在线</a>
+_higrid_author_name: <a target="_top" href="https://higrid.net/">嗨网在线</a>
 
 # 在rss中显示
 _higrid_email: higrid@qq.com   # 邮箱地址
@@ -26,7 +26,7 @@ _site_name: 嗨网博客
 _content_root: _content
 
 # 作为永久链接使用
-_site_url: http://higrid.net
+_site_url: https://higrid.net
 
 # 模板风格文件夹
 _theme: higridcms
